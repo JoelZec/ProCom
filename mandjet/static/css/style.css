@@ -1,0 +1,318 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/*body {
+  background: #d4cdcd;
+}*/
+
+.wrapper {
+  margin: 10px;
+}
+
+.wrapper .top_navbar {
+  width: calc(100% - 20px);
+  height: 60px;
+  display: flex;
+  position: fixed;
+  top: 10px;
+}
+
+.wrapper .top_navbar .hamburger {
+  width: 70px;
+  height: 100%;
+  background: #059ac3;
+  padding: 15px 17px;
+  border-top-left-radius: 20px;
+  cursor: pointer;
+}
+
+.wrapper .top_navbar .hamburger div {
+  width: 35px;
+  height: 4px;
+  background: #fff;
+  margin: 5px 0;
+  border-radius: 5px;
+}
+
+.wrapper .top_navbar .top_menu {
+  width: calc(100% - 70px);
+  height: 100%;
+  background: #fff;
+  border-top-right-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.wrapper .top_navbar .top_menu .logo {
+  color: #059ac3;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.wrapper .top_navbar .top_menu ul {
+  display: flex;
+}
+
+.wrapper .top_navbar .top_menu ul li a {
+  display: block;
+  margin: 0 10px;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  border: 1px solid #059ac3;
+  border-radius: 50%;
+  color: #059ac3;
+}
+
+.wrapper .top_navbar .top_menu ul li a:hover {
+  background: #0f1620;
+  color: #fff;
+}
+
+.wrapper .top_navbar .top_menu ul li a:hover i {
+  color: #fff;
+}
+
+.wrapper .sidebar {
+  position: fixed;
+  top: 70px;
+  left: 10px;
+  background: #059ac3;
+  width: 200px;
+  height: calc(100% - 80px);
+  border-bottom-left-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.wrapper .sidebar ul li a {
+  display: block;
+  padding: 20px;
+  color: #fff;
+  position: relative;
+  margin-bottom: 1px;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.wrapper .sidebar ul li a:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: #fff;
+  display: none;
+}
+
+.wrapper .sidebar ul li a span.icon {
+  margin-right: 10px;
+  display: inline-block;
+}
+
+.wrapper .sidebar ul li a span.title {
+  display: inline-block;
+}
+
+.wrapper .sidebar ul li a:hover,
+.wrapper .sidebar ul li a.active {
+  background: #059ac3;
+  color: #fff;
+}
+
+.wrapper .sidebar ul li a:hover:before,
+.wrapper .sidebar ul li a.active:before {
+  display: block;
+}
+
+.wrapper .main_container {
+  width: calc(100% - 200px);
+  margin-top: 70px;
+  margin-left: 200px;
+  padding: 15px;
+  transition: all 0.3s ease;
+}
+
+.wrapper .main_container .item_titre {
+  background: #fff;
+  margin-bottom: 10px;
+  padding: 15px;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.wrapper .main_container .item {
+  background: #fff;
+  margin-bottom: 10px;
+  padding: 15px;
+  font-size: 14px;
+  line-height: 22px;
+  height: 81vh;
+  justify-content: space-around;
+  
+}
+
+.wrapper.collapse .sidebar {
+  width: 70px;
+}
+
+.wrapper.collapse .sidebar ul li a {
+  text-align: center; 
+}
+
+.wrapper.collapse .sidebar ul li a span.icon {
+  margin: 0;
+}
+
+.wrapper.collapse .sidebar ul li a span.title {
+  display: none;
+}
+
+.wrapper.collapse .main_container {
+  width: calc(100% - 70px);
+  margin-left: 70px;
+}
+        /* Styles pour la grande fenêtre/rectangle */
+.content-container {
+  width: 90%; /* Largeur de la fenêtre */
+  max-width: 1800px; /* Largeur maximale */
+  margin: 20px auto; /* Centrage horizontal */
+  background-color: #f7f7f7; /* Couleur de fond grise */
+  padding: 20px; /* Espacement interne */
+  border: 1px solid #ccc; /* Bordure légère */
+  border-radius: 10px; /* Bords arrondis */
+  max-height: 710px; /* Hauteur maximale */
+  overflow-y: auto; /* Activer la barre de défilement vertical en cas de dépassement */
+}
+
+.rounded-block {
+    width: 300px;
+    padding: 20px;
+    height: 36vh;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 50px;
+    margin-right: 30px;
+  }
+  
+  .rounded-block img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+
+h2 {
+  font-size: 1.5em;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.progress {
+  height: 0px;
+  background-color: #eee;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.progress-bar {
+    height: 100%;
+    width: var(--charge-percentage, 50%); /* Use a CSS variable for width */
+    background-color: #059ac3;
+    border-radius: 5px;
+  }
+
+.percentage-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #333;
+  font-weight: bold;
+}
+
+button {
+  background-color: #059ac3;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  margin-top: 30px;
+}
+
+button:hover {
+  background-color: #045c7e;
+}
+
+.wrapper .main_container .item {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 20px;
+}
+/* ... (styles) ... */
+/* Style pour la fenêtre modale */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding-top: 60px;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+  border-radius: 10px;
+  text-align: center; /* Ajout du style pour centrer le contenu */
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}

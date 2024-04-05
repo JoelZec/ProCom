@@ -1,0 +1,143 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}"> 
+
+  <script>
+    var bookUrl = "{% url 'book' %}";
+</script>
+  <script src="{% static '/js/book.js' %}"></script>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <title>Home page</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <div class="top_navbar">
+    <div class="hamburger">
+      <div class="one"></div>
+      <div class="two"></div>
+      <div class="three"></div>
+    </div>
+    <div class="top_menu">
+      <div class="logo">VoltGo</div>
+      <ul>
+          <a><img src="{% static '/images/logo.jpg' %}" alt="Votre Logo" style="width: 55px; height: auto; padding-top: 5px;"></a>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <ul>
+      <li><a href="{% url 'home' %}" class="active" >
+        <span class="icon"><i class="fas fa-book"></i></span>
+        <span class="title">Tableau de bord</span>
+      </a></li>
+      <li>
+        <a href="{% url 'production' %}">
+          <span class="icon"><i class="fas fa-file-video"></i></span>
+          <span class="title">Production</span>
+        </a>
+      </li>
+      <li><a href="{% url 'planning' %}">
+        <span class="icon"><i class="fas fa-file-video"></i></span>
+        <span class="title">Planning</span>
+      </a></li>
+    </ul>
+  </div>
+
+  <div class="main_container">
+    <div class="item_titre">
+      <div class="title-and-button">
+        <h3>Mes vehicules </h3>
+      </div>
+    </div>
+    
+    <div class="item" style="overflow-y:scroll;">
+      {% for vehicle in vehicles %}
+        <div class="rounded-block">
+          <h6>{{ vehicle.name }}</h6>
+          <img src="{{ vehicle.image.url }}" alt="{{ vehicle.name }}" class="vehicle-image">
+          
+          <div class="progress" aria-valuemin="0" aria-valuemax="100">
+            <div class="
+            {% if vehicle.battery <= 35 %}
+            bg-danger
+            {% elif vehicle.battery <= 60 %}
+            bg-warning
+            {% else %}
+            bg-success
+            {% endif %} progress-bar progress-bar-striped" style="--charge-percentage: {{ vehicle.battery }}%;"></div>
+            <div class="percentage-text">{{ vehicle.battery }}%</div>
+          </div>
+          <button type="button"  class="btn btn-dark" data-toggle="modal" data-target="#reserveModal" data-vehicle-id="{{ vehicle.id }}" data-vehicle-name="{{ vehicle.name }}" style="margin: 40px;">
+            Reserve
+          </button>
+        </div>
+      {% endfor %}
+    </div>
+</div>
+
+  <!-- Fenêtre modale pour la réservation -->
+  <div class="modal" id="reserveModal" tabindex="-1" role="dialog" aria-labelledby="reserveModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="reserveModalLabel">Reserve Vehicle : <span id="selectedVehicleName"></span> </h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Include the reservation form here -->
+          <form method="post"  action="{% url 'book' %}">
+            {% csrf_token %}
+            <input type="hidden" id="vehicleIdInput" name="vehicle_id">
+            <div class="form-group">
+              <label for="start">Start Time:</label>
+              <input type="datetime-local" id="startDate" name="startDate" required> <br>
+            </div>
+            <div class="form-group">
+              <label for="end">End Time:</label>
+              <input type="datetime-local" id="endDate" name="endDate" required><br>
+            </div>
+
+           <div class="text-right">
+            <button type="button"  class="btn btn-dark" style="margin-top:25px;" onclick="book()">Reserve</button>
+           </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    $(document).ready(function () {
+      $('#reserveModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); 
+        var vehicleId = button.data('vehicle-id'); // Extract info from data-* attributes
+        var vehicleName = button.data('vehicle-name');
+        
+        // Update the modal's content with the selected vehicle information
+        $('#vehicleIdInput').val(vehicleId);
+        $('#selectedVehicleName').text(vehicleName);
+      });
+    });
+  </script>
+</body>
+</html>

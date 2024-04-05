@@ -1,0 +1,175 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-tooltip-html"></script>
+
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <title>Planning page</title>
+   <!-- Bootstrap JS -->
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <div class="top_navbar">
+    <div class="hamburger">
+      <div class="one"></div>
+      <div class="two"></div>
+      <div class="three"></div>
+    </div>
+    <div class="top_menu">
+      <div class="logo">VoltGo</div>
+      <ul>
+          <a><img src="{% static '/images/logo.jpg' %}" alt="Votre Logo" style="width: 55px; height: auto; padding-top: 5px;"></a>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <ul>
+      <li><a href="{% url 'home' %}" class="active" >
+        <span class="icon"><i class="fas fa-book"></i></span>
+        <span class="title">Tableau de bord</span>
+      </a></li>
+      <li>
+        <a href="{% url 'production' %}">
+          <span class="icon"><i class="fas fa-file-video"></i></span>
+          <span class="title">Production</span>
+        </a>
+      </li>
+      <li><a href="{% url 'planning' %}">
+        <span class="icon"><i class="fas fa-file-video"></i></span>
+        <span class="title">Planning</span>
+      </a></li>
+    </ul>
+  </div>
+
+  <div class="main_container">
+    <div class="item_titre">
+      <div class="title-and-button">
+        <h1>Planning de reservation</h1>
+      </div>
+    </div>
+
+    <div class="item" style="overflow-y:scroll;">
+        <!--Ajout planning de reservation-->
+        <canvas id="floatingBarsChart" width="900" height="400"></canvas>
+    </div>
+
+    
+<div id="djangoData" data-time-slots="{{ time_slots }}"></div>
+
+<script>
+  // Retrieve Django data from the placeholder
+  const djangoData = JSON.parse(document.getElementById('djangoData').getAttribute('data-time-slots'));
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Retrieve Django data from the placeholder
+    const djangoData = JSON.parse(document.getElementById('djangoData').getAttribute('data-time-slots'));
+
+    // Extract start and end times from Django data
+    const timeSlots = djangoData.map(timeSlot => {
+        return {
+            start: new Date(timeSlot.start),
+            end: new Date(timeSlot.end),
+            vehicle: timeSlot.vehicle 
+        };
+    });
+
+    // Define days and labels
+    const labels = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    // Process time slots for each day
+    const processedData = labels.map(day => {
+        const dayTimeSlots = timeSlots.filter(slot => {
+            const startDay = slot.start.toLocaleDateString('en-US', { weekday: 'long' });
+            return startDay === day;
+        });
+
+        const dayTimeSlotsData = dayTimeSlots.map(slot => {
+            return {
+                x: day, // Fixed x-axis with the days of the week
+                y: [slot.start.getHours(), slot.end.getHours()],
+                vehicle: slot.vehicle 
+            };
+        });
+
+        return dayTimeSlotsData;
+    });
+
+   
+    const flattenedData = processedData.flat();
+
+    
+    const config = {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Crenaux de reservation',
+                    data: flattenedData,
+                    backgroundColor: 'rgba(54, 162, 235, 1)',
+                },
+            ],
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {},
+            },
+            scales: {
+                x: {
+                    type: 'category',
+                    position: 'bottom',
+                    labels: labels,
+                },
+                y: {
+                    beginAtZero: true,
+                    type: 'linear', // Use a linear scale for numeric values
+                    min: 0,
+                    max: 24, 
+                    ticks: {
+                        stepSize: 2,
+                        callback: function(value, index, values) {
+                            return value + 'h';
+                        },
+                    },
+                },
+            },
+            tooltips: {
+                  mode: 'index',
+                  intersect: false,
+                  callbacks: {
+                      title: function(tooltipItems, data) {
+                          const index = tooltipItems[0].index;
+                          return `${labels[index]} - Vehicle: ${flattenedData[index].vehicle}`;
+                      },
+                      label: function(tooltipItem, data) {
+                          const dataset = data.datasets[tooltipItem.datasetIndex];
+                          const dataPoint = dataset.data[tooltipItem.index];
+                          return `Start: ${dataPoint.y[0]}h, End: ${dataPoint.y[1]}h`;
+                      }
+                  }
+              }
+        },
+    };
+
+    // Get chart context and create the chart
+    const ctx = document.getElementById('floatingBarsChart').getContext('2d');
+    const floatingBarsChart = new Chart(ctx, config);
+});
+</script>
+
+</body>
+</html>

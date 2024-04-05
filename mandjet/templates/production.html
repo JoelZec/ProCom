@@ -1,0 +1,136 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</script>
+<script src="{% static '/js/book.js' %}"></script>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<title>Home page</title>
+  <title>Production page</title>
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="top_navbar">
+    <div class="hamburger">
+      <div class="one"></div>
+      <div class="two"></div>
+      <div class="three"></div>
+    </div>
+    <div class="top_menu">
+      <div class="logo">VoltGo</div>
+      <ul>
+          <a><img src="{% static '/images/logo.jpg' %}" alt="Votre Logo" style="width: 55px; height: auto; padding-top: 5px;"></a>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <ul>
+      <li><a href="{% url 'home' %}" class="active" >
+        <span class="icon"><i class="fas fa-book"></i></span>
+        <span class="title">Tableau de bord</span>
+      </a></li>
+      <li>
+        <a href="{% url 'production' %}">
+          <span class="icon"><i class="fas fa-file-video"></i></span>
+          <span class="title">Production</span>
+        </a>
+      </li>
+      <li><a href="{% url 'planning' %}">
+        <span class="icon"><i class="fas fa-file-video"></i></span>
+        <span class="title">Planning</span>
+      </a></li>
+    </ul>
+  </div>
+
+
+  <div class="main_container">
+    <div class="item_titre">
+      <div class="title-and-button">
+        <h1>Production electrique </h1>
+      </div>
+    </div>
+
+    <div class="item" style="overflow-y:scroll;" id="chartContainer">
+        <!--Code pour afficher graphique-->
+
+        <!-- Ajoutez un conteneur pour le graphique -->
+        <canvas id="myChart" width="900" height="400"></canvas>
+
+        <script>
+            // Déplacez la déclaration de data et options ici
+            var data = {
+                labels: ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"],
+                datasets: [
+                    {
+                        label: "Panneau 1",
+                        backgroundColor: "rgba(75,192,192,0.2)",
+                        borderColor: "rgba(75,192,192,1)",
+                        borderWidth: 1,
+                        cubicInterpolationMode: 'monotone', // Ajoutez cette ligne pour l'interpolation cubique
+                        data: [5, 10, 15, 20, 25, 30, 35, 50, 75, 80, 85, 73, 85, 80, 72, 80, 85, 90, 90, 95, 82, 73, 34, 15]
+                    },
+                    {
+                        label: "Panneau 2",
+                        backgroundColor: "rgba(255,99,132,0.2)",
+                        borderColor: "rgba(255,99,132,1)",
+                        borderWidth: 1,
+                        cubicInterpolationMode: 'monotone', // Ajoutez cette ligne pour l'interpolation cubique
+                        data: [10, 15, 20, 25, 30, 35, 60, 90, 93, 98, 95, 90, 85, 80, 75, 80, 85, 90, 95, 98, 85, 70, 40, 32]
+                    }
+                ]
+            };
+
+            // Options du graphique
+            var options = {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            };
+
+            // Récupérez le contexte du canevas
+            var ctx = document.getElementById('myChart').getContext('2d');
+
+            // Créez le graphique en utilisant les données et options fournies
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: data,
+                options: options
+            });
+        </script>
+
+    </div>
+
+
+  </div>
+
+</div>
+
+<script>
+
+    $(".hamburger").click(function(){
+      $(".wrapper").toggleClass("collapse");
+    });
+  
+</script>
+
+</body>
+</html>
