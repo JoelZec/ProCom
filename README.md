@@ -10,20 +10,17 @@ It is a electric vehicles and nanogrid management webapp
 
     git clone https://github.com/your-username/your-repository.git
 
-2. Install dependencies:
 
-    pip install -r requirements.txt
-
-3. Run migrations:
+2. Run migrations:
 
   
     python manage.py migrate
 
 
-4. Start the development server:
+3. Start the development server:
 
     python manage.py runserver
    
-6. Open your web browser and navigate to http://127.0.0.1:8000/
+4. Open your web browser and navigate to http://127.0.0.1:8000/
 
 
